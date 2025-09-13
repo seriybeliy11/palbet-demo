@@ -11,7 +11,7 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <TonConnectUIProvider manifestUrl="/tonconnect-manifest.json">
+    <TonConnectUIProvider manifestUrl="https://v0-bet-pal-website-design.vercel.app/tonconnect-manifest.json">
       {children}
       <Toaster />
     </TonConnectUIProvider>
