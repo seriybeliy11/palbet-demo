@@ -186,7 +186,7 @@ export function BettingInterface() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2 text-lg md:text-xl">
-              <Calculator className="h-5 w-5 md:h-5 md:w-5" />
+              <Calculator className="h-5 w-5 md:h-5 md:w-5 text-slate-500" />
               <span>Place Your Bet</span>
             </CardTitle>
           </CardHeader>
