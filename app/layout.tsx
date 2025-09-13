@@ -2,9 +2,9 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Manrope } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
-import { Suspense } from "react"
-import { TonConnectUIProvider } from "@tonconnect/ui-react"
+import { Providers } from "@/components/providers"
 import "./globals.css"
+import { Suspense } from "react"
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -25,9 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${manrope.variable} antialiased`}>
-        <TonConnectUIProvider manifestUrl="/tonconnect-manifest.json">
-          <Suspense fallback={null}>{children}</Suspense>
-        </TonConnectUIProvider>
+        <Suspense fallback={null}>
+          <Providers>{children}</Providers>
+        </Suspense>
         <Analytics />
       </body>
     </html>
