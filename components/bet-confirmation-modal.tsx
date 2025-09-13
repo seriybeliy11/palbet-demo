@@ -11,7 +11,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { CheckCircle, AlertTriangle, TrendingUp, TrendingDown } from "lucide-react"
+import { AlertTriangle, TrendingUp, TrendingDown, Wallet } from "lucide-react"
+import { useTransactionService } from "./transaction-service"
 
 interface BetConfirmationModalProps {
   isOpen: boolean
@@ -35,9 +36,38 @@ export function BetConfirmationModal({
   betDetails,
   isProcessing,
 }: BetConfirmationModalProps) {
+  const { sendBetTransaction, checkBalance, isWalletConnected } = useTransactionService()
+
   if (!betDetails) return null
 
   const { outcome, amount, odds, potentialPayout, commission, netProfit } = betDetails
+
+  const handleConfirm = async () => {
+    if (!isWalletConnected) {
+      alert("Please connect your wallet first")
+      return
+    }
+
+    try {
+      const result = await sendBetTransaction({
+        amount,
+        outcome,
+        eventId: "ukraine-peace-2025",
+        odds,
+      })
+
+      if (result.success) {
+        onConfirm() // Call original confirm handler
+        // Show success notification
+        console.log("Transaction successful:", result.transactionHash)
+      } else {
+        alert(`Transaction failed: ${result.error}`)
+      }
+    } catch (error) {
+      console.error("Bet confirmation error:", error)
+      alert("Failed to process bet. Please try again.")
+    }
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -122,16 +152,16 @@ export function BetConfirmationModal({
           >
             Cancel
           </Button>
-          <Button onClick={onConfirm} disabled={isProcessing} className="w-full sm:w-auto">
+          <Button onClick={handleConfirm} disabled={isProcessing || !isWalletConnected} className="w-full sm:w-auto">
             {isProcessing ? (
               <div className="flex items-center space-x-2">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                <span>Processing...</span>
+                <span>Processing Transaction...</span>
               </div>
             ) : (
               <div className="flex items-center space-x-2">
-                <CheckCircle className="h-4 w-4" />
-                <span>Confirm Bet</span>
+                <Wallet className="h-4 w-4" />
+                <span>Confirm & Pay</span>
               </div>
             )}
           </Button>
