@@ -34,7 +34,7 @@ function TonConnectProvider({ children }: { children: React.ReactNode }) {
   }
 
   if (TonConnectUIProvider) {
-    return <TonConnectUIProvider manifestUrl="/tonconnect-manifest.json">{children}</TonConnectUIProvider>
+    return <TonConnectUIProvider manifestUrl="https://v0-bet-pal-website-design.vercel.app/tonconnect-manifest.json">{children}</TonConnectUIProvider>
   }
 
   // Fallback when TON Connect is not available
