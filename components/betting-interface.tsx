@@ -6,9 +6,23 @@ import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
 import { BetConfirmationModal } from "@/components/bet-confirmation-modal"
 import { useNotifications } from "@/components/notification-system"
-import { useTonWallet } from "@tonconnect/ui-react"
 import { useState, useEffect, useRef } from "react"
 import { TrendingUp, TrendingDown, Calculator, Zap } from "lucide-react"
+
+function useTonWallet() {
+  const [wallet, setWallet] = useState<any>(null)
+
+  useEffect(() => {
+    // Mock wallet for preview - in production this would use real TON Connect
+    setWallet({
+      account: {
+        address: "UQD2NmD_lH5f5u1Kj3KfGyTvhZSX0Eg6qp2a4u6_6XMzMvp2",
+      },
+    })
+  }, [])
+
+  return wallet
+}
 
 export function BettingInterface() {
   const wallet = useTonWallet()
@@ -121,16 +135,16 @@ export function BettingInterface() {
       <div className="space-y-4 md:space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <Card
-            className={`cursor-pointer transition-all duration-300 ${
+            className={`cursor-pointer transition-all duration-300 touch-manipulation min-h-[140px] ${
               selectedOutcome === "yes"
                 ? "ring-2 ring-green-500 bg-green-50 border-green-200 shadow-lg md:scale-105"
-                : "hover:bg-green-50/50 hover:border-green-200 hover:shadow-md"
+                : "hover:bg-green-50/50 hover:border-green-200 hover:shadow-md active:bg-green-100"
             }`}
             onClick={() => setSelectedOutcome("yes")}
           >
             <CardHeader className="text-center pb-3">
               <CardTitle className="text-green-600 flex items-center justify-center space-x-2 text-lg md:text-xl">
-                <TrendingUp className="h-4 w-4 md:h-5 md:w-5" />
+                <TrendingUp className="h-5 w-5 md:h-5 md:w-5" />
                 <span>YES</span>
               </CardTitle>
             </CardHeader>
@@ -145,16 +159,16 @@ export function BettingInterface() {
           </Card>
 
           <Card
-            className={`cursor-pointer transition-all duration-300 ${
+            className={`cursor-pointer transition-all duration-300 touch-manipulation min-h-[140px] ${
               selectedOutcome === "no"
                 ? "ring-2 ring-red-500 bg-red-50 border-red-200 shadow-lg md:scale-105"
-                : "hover:bg-red-50/50 hover:border-red-200 hover:shadow-md"
+                : "hover:bg-red-50/50 hover:border-red-200 hover:shadow-md active:bg-red-100"
             }`}
             onClick={() => setSelectedOutcome("no")}
           >
             <CardHeader className="text-center pb-3">
               <CardTitle className="text-red-600 flex items-center justify-center space-x-2 text-lg md:text-xl">
-                <TrendingDown className="h-4 w-4 md:h-5 md:w-5" />
+                <TrendingDown className="h-5 w-5 md:h-5 md:w-5" />
                 <span>NO</span>
               </CardTitle>
             </CardHeader>
@@ -172,21 +186,21 @@ export function BettingInterface() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2 text-lg md:text-xl">
-              <Calculator className="h-4 w-4 md:h-5 md:w-5" />
+              <Calculator className="h-5 w-5 md:h-5 md:w-5" />
               <span>Place Your Bet</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 md:space-y-6">
             <div>
               <label className="text-sm font-medium mb-3 block">Quick Amounts</label>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[100, 500, 1000, 5000].map((amount) => (
                   <Button
                     key={amount}
                     variant={betAmount[0] === amount ? "default" : "outline"}
                     size="sm"
                     onClick={() => handleQuickAmount(amount)}
-                    className="text-xs md:text-sm"
+                    className="text-sm md:text-sm min-h-[44px] touch-manipulation font-medium"
                   >
                     {amount >= 1000 ? `${amount / 1000}K` : amount.toString()}
                   </Button>
@@ -203,7 +217,7 @@ export function BettingInterface() {
                 onChange={(e) => handleCustomAmountChange(e.target.value)}
                 min={1}
                 max={100000}
-                className="text-base md:text-sm"
+                className="text-base md:text-sm min-h-[44px] touch-manipulation"
               />
             </div>
 
@@ -212,14 +226,16 @@ export function BettingInterface() {
                 <label className="text-sm font-medium">Bet Amount</label>
                 <span className="text-lg md:text-xl font-bold text-primary">{betAmount[0].toLocaleString()} USDT</span>
               </div>
-              <Slider
-                value={betAmount}
-                onValueChange={handleSliderChange}
-                max={100000}
-                min={1}
-                step={1}
-                className="w-full"
-              />
+              <div className="py-2">
+                <Slider
+                  value={betAmount}
+                  onValueChange={handleSliderChange}
+                  max={100000}
+                  min={1}
+                  step={1}
+                  className="w-full touch-manipulation"
+                />
+              </div>
               <div className="flex justify-between text-xs text-muted-foreground mt-2">
                 <span>1 USDT</span>
                 <span>100K USDT</span>
@@ -269,7 +285,7 @@ export function BettingInterface() {
             )}
 
             <Button
-              className="w-full text-sm md:text-base"
+              className="w-full text-base md:text-base min-h-[52px] touch-manipulation font-semibold"
               size="lg"
               disabled={!selectedOutcome || !wallet || betAmount[0] < 1}
               onClick={handlePlaceBet}

@@ -13,7 +13,7 @@ export default function HomePage() {
   const [activeSection, setActiveSection] = useState<"chart" | "betting" | "wallet">("betting")
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background touch-action-manipulation">
       <Header />
 
       {/* Desktop Layout */}
@@ -30,7 +30,7 @@ export default function HomePage() {
           <EventCard />
         </div>
 
-        <div className="px-4 pb-20">
+        <div className="px-4 pb-24 safe-area-pb">
           {activeSection === "chart" && (
             <div className="space-y-4">
               <BettingChart />
