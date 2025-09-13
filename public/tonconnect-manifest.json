@@ -1,7 +1,7 @@
 {
-  "url": "https://v0-bet-pal-website-design.vercel.app/",
+  "url": "https://betpal.vercel.app",
   "name": "BetPal",
-  "iconUrl": "https://v0-bet-pal-website-design.vercel.app/icon-192x192.png",
-  "termsOfUseUrl": "https://v0-bet-pal-website-design.vercel.app/terms",
-  "privacyPolicyUrl": "https://v0-bet-pal-website-design.vercel.app/privacy"
+  "iconUrl": "https://betpal.vercel.app/icon-192x192.png",
+  "termsOfUseUrl": "https://betpal.vercel.app/terms",
+  "privacyPolicyUrl": "https://betpal.vercel.app/privacy"
 }
